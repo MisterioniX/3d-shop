@@ -12,7 +12,7 @@ from tasks.models import Task
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
-    template_name = "Tasks/create.html"
+    template_name = "tasks/create.html"
     success_url = reverse_lazy('tasks:home')
     login_url = reverse_lazy('accounts:login')
     
