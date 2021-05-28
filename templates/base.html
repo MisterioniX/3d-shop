@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <title>{% block title %}{% endblock title %}</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    {% comment %} SELECT2 {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    {% load static %}
+    {% block link %}{% endblock  %}
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-primary bg-light container">
+        <a class="navbar-brand" href="{% url 'home' %}">Колыма</a>
+        <button class="navbar-toggler d-lg-none my-1 mx-2" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">Меню</span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'tasks:home' %}">Заказы</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'sendemail:feedback' %}">Поддержка</a>
+                </li>
+                {% if user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin:login' %}">Admin</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+            <a name="" id="" class="btn btn-primary nav-link mx-1 my-1" href="{% url 'accounts:detail' %}" role="button">{{ user.username }}</a>
+            <a name="" id="" class="btn btn-danger nav-link mx-1 my-1" href="{% url 'accounts:logout' %}" role="button">Выйти</a>
+            {% else %}
+            <a name="" id="" class="btn btn-primary nav-link mx-1 my-1" href="{% url 'accounts:login' %}" role="button">Войти</a>
+            <a name="" id="" class="btn btn-success nav-link mx-1 my-1" href="{% url 'accounts:register' %}" role="button">Регистрация</a>
+            {% endif %}
+        </div>
+
+        
+    </nav>
+    <main class="container">
+    {% block content %}{% endblock %}
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          $('.js-example-basic-single').select2();
+          $('.js-example-basic-multiple').select2();
+      });
+    </script>
+  </body>
+</html>

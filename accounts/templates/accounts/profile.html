@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block link %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 container">
+            <div class="row mx-auto text-center justify-content-center">
+                <h1 class="text-center">{{ user.username }}</h1>
+            </div>
+            <figure class="row">
+                <img src="user.profile.avatar.url" alt="" sizes="" srcset="">
+            </figure>
+        </div>
+        <div class="col-md-8 container">
+            <div class="row my-2">
+                <div class="col-md">
+                    <a name="" id="" class="btn btn-primary m-1" href="{% url 'accounts:update' %}" role="button">Редактировать профиль</a>
+                    <table class="table m-1">
+                        <tbody>
+                            <tr>
+                                <td scope="row">Имя и фамилия: </td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Почта: </td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Номер телефона: </td>
+                                <td>{{ user.profile.phonenumber }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

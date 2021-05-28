@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Поздравляем!{% endblock %}
+
+{% block link %}{% endblock %}
+
+{% block content %}
+    <h1 class="row">Поздравляем, {{ new_user.username }}!</h1>
+
+    <p>Теперь вы можете <a name="" id="" class="btn btn-primary" href="{% url 'accounts:login' %}" role="button">Войти</a></p>
+{% endblock %}

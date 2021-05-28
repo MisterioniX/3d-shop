@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Поддержка{% endblock %}
+
+{% block link %}{% endblock %}
+
+{% block content %}
+    <h1 class="row">Поддержка</h1>
+    <p class="lead">
+        Здесь вы можете написать админу сообщение об ошибке или пожеланиях для развития магазина, 
+        а админ ответит вам на почту, указанную вами при регистрации.
+    </p>
+
+    {% include 'form.html' with button='Отправить' %}
+{% endblock %}

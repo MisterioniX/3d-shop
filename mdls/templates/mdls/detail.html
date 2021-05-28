@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }}{% endblock %}
+
+{% load static %}
+{% block link %}
+    <script type="text/javascript" src="{% static 'mdls/js/three.min-126.js' %} "></script>
+    <script type="text/javascript" src="{% static 'mdls/js/o3dv.min-0.7.9.js' %}"></script>
+    <script type='text/javascript'>
+        OV.Init3DViewerElements ();
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="row my-4 mt-3">
+        <div class="container col-md-6 ">
+            <div class="row m-2">
+                <img src="{{ object.image.url }}" class="img-fluid rounded" alt="{{ object.name }}" >
+            </div>
+            <div class="row m-2">
+            {% if user.is_authenticated %}
+                <a name="download" class="btn btn-success col-md-6 mx-auto my-auto" href="{{ object.file.url }}" role="button">Скачать</a>
+            {% else %}
+            {% endif %}
+                <p class="col-md-4 my-auto">{{ object.date }}</p>
+            </div>
+            <div class="row m-2">
+                <p class="col-md my-2 mx-auto lead">Автор: {{ object.author.user.username }}</p>
+            </div>
+            {% if object.author.user == user %}
+            <div class="row m-2">
+                <a name="" id="" class="btn btn-primary m-1" href="{% url 'mdls:update' pk=object.pk %}" role="button">Редактировать</a>
+                <a name="" id="" class="btn btn-danger m-1" href="{% url 'mdls:delete' pk=object.pk %}" role="button">Удалить</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="container col-md-6">
+            <div class="row mx-3">
+                <h1 class="col-md-auto">{{ object.name }}</h1>
+            </div>
+            <div class="row mx-3">
+                <p class="lead">
+                    {{ object.description }}
+                </p>
+            </div>
+            <div class="row">
+                {% if object.is_visualiseble %}
+                    <div class="card col-12" style="height: 28rem;">
+                        <div class="online_3d_viewer"
+                            style="height: 26rem;"
+                            model="{{ object.file.url }}"
+                            camera="3,1,2,0,0,0,0,0,1">
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card col-12" style="height: 28rem;">
+                        <p class="lead">Данную модель нельзя визуализировать в браузере.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock%}
+    

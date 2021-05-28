@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказы{% endblock %}
+
+{% load static %}
+{% block link %}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-9 container">
+      <div class="row my-2 mx-3">
+        <a name="" id="" class="btn btn-success col-lg-2 col-md-4 col-sm-4" href="{% url 'tasks:create' %}" role="button">Добавить</a>
+      </div>
+      <div class="row my-2 mx-1">
+        {% for object in page_obj %}  
+        {% if user.is_authenticated %}
+            <div class="col-12 m-3">
+                <div class="card text-left">
+                    <div class="card-body row">
+                        <div class="col-md-auto">
+                            <h4 class="card-title">{{ object.name }}</h4>
+                            <p class="card-text lead">{{ object.description }}</p>
+                            <p class="card-text">
+                                Опубликовано: {{ object.date }} Срок выполнения: {{ object.deadline }}<br>
+                                Заказчик: {{ object.author }}<br>
+                                Контакты: {{ object.author.user.email }}, {{ object.author.phonenumber }}
+                            </p>
+                        </div>
+                        {% if object.author == user.profile %}
+                            <div class="col-md-3">
+                                <a name="" id="" class="btn btn-primary m-1" href="{% url 'tasks:update' pk=object.pk %}" role="button">Редактировать</a>
+                                <a name="" id="" class="btn btn-danger m-1" href="{% url 'tasks:delete' pk=object.pk %}" role="button">Удалить</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% comment %} <a class="col-12" href="{% url 'mdls:detail' pk=object.pk %}" role="button">
+        </a> {% endcomment %}
+        {% else %}
+        {% comment %} <div class="col-xl-3 col-lg-4 col-sm-6 col-12 my-3">
+          <div class="card text-left">
+            <img class="card-img-top" src="{{ object.image.url }}" alt="" style="height: 150px;">
+            <div class="card-body">
+              <h4 class="card-title">{{ object.name }}</h4>
+            </div>
+          </div>
+        </div> {% endcomment %}
+
+        <div class="col-12 col-auto m-3">
+            <div class="card text-left">
+                <div class="card-body">
+                    <h4 class="card-title">{{ object.name }}</h4>
+                    <p class="card-text">{{ object.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="row my-2">
+        <nav class="mx-auto" aria-label="Страница">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="Начало">
+                    <span class="">Начало</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Назад">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for page in page_obj.paginator.page_range %}
+            <li class="page-item {% if page == page_obj.number %} active {% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+           
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Вперёд">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Конец">
+                    <span class="">Конец</span>
+                </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-3">
+    {% include 'get_form.html' with button='Поиск' %}
+    </div>
+  </div>
+{% endblock%}
+    
