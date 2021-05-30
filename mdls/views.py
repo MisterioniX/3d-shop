@@ -36,16 +36,11 @@ class MdlUpdateView(LoginRequiredMixin, UpdateView):
     login_url = reverse_lazy('accounts:login')
     success_url = reverse_lazy('home')
     
-    def get(self, request, *args, **kwargs):
-        print(request.user, self.get_object().author)
+    def dispatch(self, request, *args, **kwargs):
         if request.user == self.get_object().author.user:
-            return super().get(request, *args, **kwargs)
+            return super().dispatch(request, *args, **kwargs)
         return redirect('home')
-
-    def post(self, request, *args, **kwargs):
-        if request.user == self.get_object().author:
-            return super().post(request, *args, **kwargs)
-        return redirect('home')
+    
     
     def form_valid(self, form):
         form.instance.extension = form.instance.file.path.split('.')[-1].lower()
@@ -60,9 +55,9 @@ class MdlDeleteView(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
     
-    def post(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.user == self.get_object().author.user:
-            return super().post(request, *args, **kwargs)
+            return super().dispatch(request, *args, **kwargs)
         return redirect('home')
 
 

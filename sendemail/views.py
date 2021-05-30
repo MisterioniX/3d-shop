@@ -18,11 +18,9 @@ class FeedbackView(LoginRequiredMixin, TemplateView):
     
     
     def dispatch(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        # если метод GET, вернем форму
         if request.method == 'GET':
-            form = EmailForm(request.GET)
+            form = EmailForm()
         elif request.method == 'POST':
-            # если метод POST, проверим форму и отправим письмо
             form = EmailForm(request.POST)
             if form.is_valid():
                 subject = form.cleaned_data['subject']
@@ -36,6 +34,7 @@ class FeedbackView(LoginRequiredMixin, TemplateView):
                 return redirect('sendemail:success')
         else:
             return HttpResponse('Неверный запрос.')
+        
         return super().dispatch(request, *args, **kwargs)
         
     
@@ -43,7 +42,12 @@ class FeedbackView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        form = EmailForm(self.request.POST)
+        if self.request.method == 'GET':
+            form = EmailForm()
+            
+        elif self.request.method == 'POST':
+            form = EmailForm(self.request.POST)
+            
         context['form'] = form
         
         return context   
