@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECRET_KEY = 'django-insecure-q3u2!1bckpf(1=ze&i_zf6m@)!kz(8_mr*cpmysd^&treq(=@#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['shop-3dmodel.herokuapp.com', '.shop-3dmodel.com']
 
