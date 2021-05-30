@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['models-3d-store.herokuapp.com', '.models-3d-store.com']
+ALLOWED_HOSTS = ['shop-3dmodel.herokuapp.com/', '.shop-3dmodel.com']
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'tasks',
     'sendemail.apps.SendemailConfig',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
