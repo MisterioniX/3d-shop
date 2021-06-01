@@ -8,26 +8,28 @@ from kolyma_store.settings import BASE_DIR, VISUALIZABLE_EXTENSIONS
 
 
 class Tag(models.Model):
-        """Категория модели"""
-        name = models.CharField(max_length=50, unique=True, verbose_name='Категория')
-    
-    
-        class Meta:
-            """Meta definition for Tag."""
-    
-            verbose_name = 'Категория'
-            verbose_name_plural = 'Категории'
-            ordering = ['name']
-    
-        def __str__(self):
-            return self.name
+    """Категория модели"""
+
+    # Поля модели в базе данных
+
+    name = models.CharField(max_length=50, unique=True, verbose_name='Категория')
+
+    class Meta:
+        """Meta definition for Tag."""
+
+        verbose_name = 'Категория'  # Отображение названия модели на сайте       
+        verbose_name_plural = 'Категории'   # Отображение названия модели на сайте во множественном числе  
+        ordering = ['name'] # порядок отображения моделий 
+
+    def __str__(self):
+        return self.name
 
 
 
 class Mdl(models.Model):
     """Определение модели для Mdl (3D Model)."""
     
-    # TODO: Define fields here
+    # Поля модели в базе данных
     
     name = models.CharField(max_length=50, verbose_name='Модель')
     description = models.TextField(editable=True, verbose_name='Описание модели')
@@ -39,28 +41,23 @@ class Mdl(models.Model):
     author = models.ForeignKey(UserProfile, verbose_name='Автор', on_delete=models.CASCADE, related_name='models')
 
 
-    class Meta:
+    class Meta: 
         """Meta definition for Mdl."""
 
-        verbose_name = 'Модель'         
-        verbose_name_plural = 'Модели'
-        # ordering = ['date', 'name']  
+        verbose_name = 'Модель' # Отображение названия модели на сайте       
+        verbose_name_plural = 'Модели' # Отображение названия модели на сайте во множественном числе  
 
-    def __str__(self):
+    def __str__(self): # В строковом отображении модель возвращает своё название 
         return self.name
 
-    # def save(self):
-    #     """Save method for Mdl."""
-    #     pass
-
-    def get_absolute_url(self):
+    def get_absolute_url(self): # Абсолютный адрес модели
         """Возвращает absolute url для Mdl."""
         return reverse_lazy('mdls:detail', kwargs={'pk':self.pk})
-
-    # TODO: Define custom methods here
     
     
     def is_visualiseble(self):
+        """Возвращает True, если 3D модель можно отобразить на сайте"""
+
         return self.extension in VISUALIZABLE_EXTENSIONS
     
     

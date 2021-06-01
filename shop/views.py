@@ -13,31 +13,31 @@ from shop.utils import filter_by_tags
 
 
 class MdlListView(ListView):
-    model = Mdl
-    paginate_by = 20
-    template_name = 'shop/home.html'
-    form_class = MdlSearchForm
+    model = Mdl # Модель 3D модели
+    paginate_by = 20    # Количество 3D моделей на одной странице
+    template_name = 'shop/home.html'    # Шаблон
+    form_class = MdlSearchForm  # Форма поиска
     
-    def get_queryset(self):
-        tags_ids = self.request.GET.getlist('tags', Tag.objects.all().values_list('id', flat=True))
-        order = self.request.GET.get('order', 'date')
-        text = self.request.GET.get('text', '')
-        new_context = Mdl.objects.all()
-        if tags_ids:
-            new_context = filter_by_tags(Tag.objects.filter(
-                id__in=tags_ids,
-            )).filter(Q(name__contains=text) | Q(description__contains=text)).order_by(order)
-        return new_context
+    def get_queryset(self): # Формирование набора моделей, который мы отобразим
+        tags_ids = self.request.GET.getlist('tags', # Получаем id категорий, которые хочет видеть пользователь
+        Tag.objects.all().values_list('id', flat=True)) # Список названий категорий, которые выбрал пользователь
+        order = self.request.GET.get('order', 'date')   # Получаем порядок, в котором надо отсортировать модели
+        text = self.request.GET.get('text', '') # Получаем подстроку, которая должна присутствовать в названии или описании модели
+        qs = filter_by_tags(Tag.objects.filter(    # Получаем набор моделей из функции filter_by_tags
+            id__in=tags_ids,    #  Выбираем тэги, id которых содержится в tags_ids
+        )).filter(Q(name__icontains=text) |  # Филитруем по наличию text в названии или описании
+        Q(description__icontains=text)).order_by(order)  # Сортируем в заданном порядке
+        return qs  # Возвращаем полученный набор моделей
         
         
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):   # Данные, которые будет испоьзовать view для формирования страницы
+        context = super().get_context_data(**kwargs)    # Получаем данные из материнского метода
         
-        form = MdlSearchForm(self.request.GET)
-        context['form'] = form
+        form = MdlSearchForm(self.request.GET)  # Добавляем форму поиска
+        context['form'] = form  
         
-        context['tags'] = self.request.GET.get('tags', Tag.objects.all().values_list('id', flat=True))
-        context['order'] = self.request.GET.get('order', 'date')
+        context['tags'] = self.request.GET.get('tags', Tag.objects.all().values_list('id', flat=True))  # Категории моделей
+        context['order'] = self.request.GET.get('order', 'date')    # Порядок сортировки
         
-        return context    
+        return context    # Возвращаем контекст с новыми данными
     

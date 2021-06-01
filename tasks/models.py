@@ -7,7 +7,7 @@ from datetime import datetime
 class Task(models.Model):
     """Определение модели заказа."""
 
-    # TODO: Define fields here
+    # Поля модели в базе данных
     name = models.CharField(max_length=50, verbose_name='Заказ')
     description = models.TextField(editable=True, verbose_name='Описание заказа')
     date = models.DateField(auto_now=False, auto_now_add=True, verbose_name='Дата добавления')
@@ -17,19 +17,15 @@ class Task(models.Model):
     class Meta:
         """Meta definition for Task."""
 
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
-        ordering = ['date']
+        verbose_name = 'Заказ'  # Отображение названия модели на сайте
+        verbose_name_plural = 'Заказы'  # Отображение названия модели на сайте во множественном числе  
+        ordering = ['date'] # Порядок отображения моделей
 
-    def __str__(self):
+    def __str__(self):  # В строковом отображении модель возвращает своё название 
         return self.name
 
-    # def save(self):
-    #     """Save method for Task."""
-    #     pass
 
-    def get_absolute_url(self):
+    def get_absolute_url(self): # Абсолютный адрес модели
         """Return absolute url for Task."""
         return reverse_lazy('tasks:detail', kwargs={'pk':self.pk})
 
-    # TODO: Define custom methods here

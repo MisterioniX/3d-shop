@@ -13,47 +13,42 @@ from sendemail.forms import EmailForm
 
 # Create your views here.
 
-class FeedbackView(LoginRequiredMixin, TemplateView):
+
+class FeedbackView(LoginRequiredMixin, TemplateView):   # Страница обратной связи
     template_name = "sendemail/feedback.html"
-    
-    
+
     def dispatch(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         if request.method == 'GET':
             form = EmailForm()
         elif request.method == 'POST':
             form = EmailForm(request.POST)
             if form.is_valid():
-                subject = form.cleaned_data['subject']
-                from_email = request.user.email
-                message = form.cleaned_data['message']
+                subject = form.cleaned_data['subject']  # Тема письма
+                from_email = request.user.email  # Email автора письма
+                message = form.cleaned_data['message']  # Текст письма
                 try:
-                    send_mail(f'{subject} от {from_email}', message,
-                            DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
+                    send_mail(f'{subject} от {from_email}', message,    # Отправляем сообщение с DEFAULT_FROM_EMAIL на RECIPIENTS_EMAIL
+                              DEFAULT_FROM_EMAIL, RECIPIENTS_EMAIL)
                 except BadHeaderError:
                     return HttpResponse('Ошибка в теме письма.')
                 return redirect('sendemail:success')
         else:
             return HttpResponse('Неверный запрос.')
-        
+
         return super().dispatch(request, *args, **kwargs)
-        
-    
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
-        if self.request.method == 'GET':
-            form = EmailForm()
-            
-        elif self.request.method == 'POST':
+
+        form = EmailForm()
+
+        if self.request.method == 'POST':
             form = EmailForm(self.request.POST)
-            
+
         context['form'] = form
-        
-        return context   
-    
-    
-class SuccessView(TemplateView):
+
+        return context
+
+
+class SuccessView(TemplateView):    #
     template_name = "sendemail/success.html"
-
-

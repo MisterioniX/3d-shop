@@ -71,11 +71,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    # avatar = forms.ImageField(label="avatar", allow_empty_file=True, widget=forms.FileInput({
-    #     'class': 'form-control',
-    #     'place_holder': 'Добавьте свой аватар'
-    # }))
-    
+
     class Meta:
         model = UserProfile
         fields = ['phonenumber']

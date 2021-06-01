@@ -8,6 +8,7 @@
     <script type="text/javascript" src="{% static 'mdls/js/o3dv.min-0.7.9.js' %}"></script>
     <script type='text/javascript'>
         OV.Init3DViewerElements ();
+        // Добавляем скрипты для визуализации модели из этого репозитория > https://github.com/kovacsv/Online3DViewer
     </script>
 {% endblock %}
 
@@ -45,6 +46,7 @@
             </div>
             <div class="row">
                 {% if object.is_visualiseble %}
+                    <!-- Модель подгружается из ссылки ена файл, если расширение файла можно визуализировать. Если нет, то выводится соответствующее сообщение -->
                     <div class="card col-12" style="height: 28rem;">
                         <div class="online_3d_viewer"
                             style="height: 26rem;"
@@ -61,4 +63,3 @@
         </div>
     </div>
 {% endblock%}
-    
