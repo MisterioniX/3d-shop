@@ -14,7 +14,7 @@ from shop.utils import filter_by_tags
 
 class MdlListView(ListView):
     model = Mdl # Модель 3D модели
-    paginate_by = 20    # Количество 3D моделей на одной странице
+    paginate_by = 4    # Количество 3D моделей на одной странице
     template_name = 'shop/home.html'    # Шаблон
     form_class = MdlSearchForm  # Форма поиска
     
